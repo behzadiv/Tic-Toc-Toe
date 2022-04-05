@@ -23,4 +23,7 @@ export const checkWinner = (selectedBoxArray,player) => {
   if (myIndex != -1) {
     console.log(player, "winner");
   }
+  else if(myIndex===-1 && selectedBoxArray.length===5){
+    console.log("draw!");
+  }
 };
