@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.App{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+display: grid;
+grid-template-columns: repeat(3,1fr);
+grid-template-rows: repeat(3,1fr);
+/* width: 100%; */
+max-width: 300px;
+margin: 3rem auto;
+
+/* background-color: blue; */
+
+}
+.section{
+    width: 100px;
+    height: 100px;
+    /* background-color: red; */
+    border: 5px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
