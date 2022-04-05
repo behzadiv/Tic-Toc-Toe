@@ -1,25 +1,33 @@
 import "../App.css";
 import { useState } from "react";
+import { checkWinner } from "../utils/CheckingWinner";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { chengePlayer } from "../redux/player/playerAction";
 
 const Toictoctoe = () => {
-
-  const [player, setPlayer] = useState("x");
-
+  const player = useSelector((state) => state.player.player);
+  const dispatch = useDispatch();
   const [selectedPlayerX, setSelectedPlayerX] = useState([]);
   const [selectedPlayerY, setSelectedPlayerY] = useState([]);
-  
-  //select number of box and push it in arrayX or arrayY
+
   const selectedByPlayers = (e) => {
     let selectedId = parseInt(e.target.id);
-    let selectedBox =document.getElementById(selectedId)
-    if (player === "x" && selectedBox.innerHTML==="") {
-      setPlayer("y");
+    let selectedBox = document.getElementById(selectedId);
+    if (player === "X" && selectedBox.innerHTML === "") {
       selectedPlayerX.push(selectedId);
-      selectedBox.innerHTML= "*";
-    } else if(player === "y" && selectedBox.innerHTML===""){
-      setPlayer("x");
+      selectedBox.innerHTML = "*";
+      dispatch(chengePlayer("Y"));
+      if (selectedPlayerX.length > 2) {
+        checkWinner(selectedPlayerX, player);
+      }
+    } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
-      selectedBox.innerHTML= "+";
+      selectedBox.innerHTML = "+";
+      dispatch(chengePlayer("X"));
+      if (selectedPlayerX.length > 2) {
+        checkWinner(selectedPlayerY, player);
+      }
     }
   };
   return (
