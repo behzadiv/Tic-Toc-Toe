@@ -11,19 +11,57 @@
 display: grid;
 grid-template-columns: repeat(3,1fr);
 grid-template-rows: repeat(3,1fr);
-/* width: 100%; */
-max-width: 300px;
-margin: 3rem auto;
-
-/* background-color: blue; */
+max-width: 340px;
+max-height: 340px;
+margin: 5rem auto;
+row-gap: 10px;
+column-gap: 10px;
+background-color: rgba(61, 33, 85, 0.459);
 
 }
 .section{
     width: 100px;
     height: 100px;
-    /* background-color: red; */
-    border: 5px solid #eee;
+    background-color: white;
+    border: 5px solid #333;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+.iconCircle{
+    font-size: 50px;
+    color: blue;
+}
+.iconXmark{
+    font-size: 60px;
+    color:red;
+}
+#B1{
+   border-top: 0;
+   border-left: 0;
+}
+#B2{
+    border-top: 0;
+}
+#B3{
+    border-right: 0;
+    border-top: 0;
+}
+#B4{
+    border-left: 0;
+}
+#B6{
+    border-right: 0;
+}
+#B7{
+    border-left: 0;
+    border-bottom: 0;
+}
+#B8{
+    border-bottom: 0;
+}
+#B9{
+    border-bottom: 0;
+    border-right: 0;
 }
