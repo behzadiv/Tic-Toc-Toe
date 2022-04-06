@@ -4,32 +4,41 @@ import { checkWinner } from "../utils/CheckingWinner";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { chengePlayer } from "../redux/player/playerAction";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-regular-svg-icons";
+import {faXmark } from "@fortawesome/free-solid-svg-icons";
+import ReactDOMServer from 'react-dom/server';
 
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
   const dispatch = useDispatch();
   const [selectedPlayerX, setSelectedPlayerX] = useState([]);
   const [selectedPlayerY, setSelectedPlayerY] = useState([]);
-
-  const selectedByPlayers = (e) => {
+  //my svg icons
+  const circle= <FontAwesomeIcon icon={faCircle} className="iconCircle"/>
+  const xmark= <FontAwesomeIcon icon={faXmark}  className="iconXmark"/>
+  
+ const selectedByPlayers = (e) => {
     let selectedId = parseInt(e.target.id);
     let selectedBox = document.getElementById(selectedId);
     if (player === "X" && selectedBox.innerHTML === "") {
       selectedPlayerX.push(selectedId);
-      selectedBox.innerHTML = "*";
-      dispatch(chengePlayer("Y"));
+     dispatch(chengePlayer("Y"));
       if (selectedPlayerX.length > 2) {
         checkWinner(selectedPlayerX, player);
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
-      selectedBox.innerHTML = "+";
       dispatch(chengePlayer("X"));
       if (selectedPlayerX.length > 2) {
-        checkWinner(selectedPlayerY, player);
-      }
+          checkWinner(selectedPlayerY, player);
+        }
     }
+    
+    (player==="X"? selectedBox.innerHTML = ReactDOMServer.renderToString(circle) : selectedBox.innerHTML=ReactDOMServer.renderToString(xmark))
   };
+  
+  //const circle = <FontAwesomeIcon icon="fa-regular fa-circle" />
   return (
     <div className="App">
       <section className="container" onClick={(e) => selectedByPlayers(e)}>
@@ -48,3 +57,5 @@ const Toictoctoe = () => {
 };
 
 export default Toictoctoe;
+
+
