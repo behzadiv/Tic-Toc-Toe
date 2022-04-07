@@ -1,6 +1,6 @@
 import "../App.css";
 import { useState } from "react";
-import { checkWinner } from "../utils/CheckingWinner";
+import { CheckWinner } from "../utils/CheckingWinner";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { chengePlayer } from "../redux/player/playerAction";
@@ -8,7 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import ReactDOMServer from "react-dom/server";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import "animate.css";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
   const dispatch = useDispatch();
@@ -18,32 +20,33 @@ const Toictoctoe = () => {
   const circle = <FontAwesomeIcon icon={faCircle} className="iconCircle" />;
   const xmark = <FontAwesomeIcon icon={faXmark} className="iconXmark" />;
 
+ 
   const selectedByPlayers = (e) => {
-    //pop number from my Id and select player selected box
+    //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
     const myId = e.target.id;
     const idToArray = myId.split("");
     let selectedId = parseInt(idToArray[1]);
     let selectedBox = document.getElementById(myId);
-    
+
     if (player === "X" && selectedBox.innerHTML === "") {
       selectedPlayerX.push(selectedId);
       dispatch(chengePlayer("Y"));
+      selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
       if (selectedPlayerX.length > 2) {
-        checkWinner(selectedPlayerX, player);
+        const result = CheckWinner(selectedPlayerX, player);
+        console.log(result);
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
       dispatch(chengePlayer("X"));
-      if (selectedPlayerX.length > 2) {
-        checkWinner(selectedPlayerY, player);
+      selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
+      if (selectedPlayerY.length > 2) {
+        const result = CheckWinner(selectedPlayerY, player);
+        console.log(result);
       }
     }
-
-    player === "X"
-      ? (selectedBox.innerHTML = ReactDOMServer.renderToString(circle))
-      : (selectedBox.innerHTML = ReactDOMServer.renderToString(xmark));
   };
-
+ 
   return (
     <div className="App">
       <div className="App">
