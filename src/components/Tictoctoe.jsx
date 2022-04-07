@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { chengePlayer } from "../redux/player/playerAction";
 import ReactDOMServer from "react-dom/server";
 import { gameAlert } from "../utils/gameAlert";
-import Players from "./Players";
 import { iconCreator } from "../utils/iconCreator";
+import Players from "./Players";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
   const dispatch = useDispatch();
@@ -52,6 +52,7 @@ const Toictoctoe = () => {
   };
   return (
     <div className="App">
+        <Players/>
       <section className="container" onClick={(e) => selectedByPlayers(e)}>
         <div className="section" id="B1"></div>
         <div className="section" id="B2"></div>
@@ -65,7 +66,7 @@ const Toictoctoe = () => {
       </section>
       <section>
         <button className="btn reset" onClick={() => resetGame()}>
-          Play again!
+          Restart Game
         </button>
       </section>
     </div>
