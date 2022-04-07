@@ -8,9 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import ReactDOMServer from "react-dom/server";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import "animate.css";
+import { gameAlert } from "../utils/gameAlert";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
   const dispatch = useDispatch();
@@ -35,6 +33,7 @@ const Toictoctoe = () => {
       if (selectedPlayerX.length > 2) {
         const result = CheckWinner(selectedPlayerX, player);
         console.log(result);
+        if (result !== "playing") gameAlert(result);
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
@@ -43,6 +42,7 @@ const Toictoctoe = () => {
       if (selectedPlayerY.length > 2) {
         const result = CheckWinner(selectedPlayerY, player);
         console.log(result);
+        if (result !== "playing") gameAlert(result);
       }
     }
   };
