@@ -46,7 +46,14 @@ const Toictoctoe = () => {
       }
     }
   };
- 
+  const resetGame = () => {
+    dispatch(chengePlayer("X"));
+    setSelectedPlayerX([]);
+    setSelectedPlayerY([]);
+    let myBoxs = document.getElementsByClassName("container")[0].childNodes;
+    Array.from(myBoxs).map((div) => (div.innerHTML = ""));
+    console.log(typeof myBoxs, myBoxs);
+  };
   return (
     <div className="App">
       <div className="App">
@@ -61,6 +68,11 @@ const Toictoctoe = () => {
           <div className="section" id="B8"></div>
           <div className="section" id="B9"></div>
         </section>
+        <section>
+          <button className="btn reset" onClick={() => resetGame()}>
+            Play again!
+          </button>
+        </section> 
       </div>
     </div>
   );
