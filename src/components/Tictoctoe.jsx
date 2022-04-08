@@ -13,8 +13,10 @@ const Toictoctoe = () => {
   const dispatch = useDispatch();
   const [selectedPlayerX, setSelectedPlayerX] = useState([]);
   const [selectedPlayerY, setSelectedPlayerY] = useState([]);
+  //permit players to play
+  const [allow, setAllow] = useState(true);
   //bring my icons
-  const[circle,xmark] = iconCreator()
+  const [circle, xmark] = iconCreator();
   const selectedByPlayers = (e) => {
     //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
     const myId = e.target.id;
@@ -28,8 +30,10 @@ const Toictoctoe = () => {
       selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
       if (selectedPlayerX.length > 2) {
         const result = CheckWinner(selectedPlayerX, player);
-        console.log(result);
-        if (result !== "playing") gameAlert(result);
+        if (result !== "playing") {
+          gameAlert(result);
+          setAllow(false);
+        }
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
@@ -37,8 +41,10 @@ const Toictoctoe = () => {
       selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
       if (selectedPlayerY.length > 2) {
         const result = CheckWinner(selectedPlayerY, player);
-        console.log(result);
-        if (result !== "playing") gameAlert(result);
+        if (result !== "playing") {
+          gameAlert(result);
+          setAllow(false);
+        }
       }
     }
   };
@@ -46,14 +52,17 @@ const Toictoctoe = () => {
     dispatch(chengePlayer("X"));
     setSelectedPlayerX([]);
     setSelectedPlayerY([]);
+    setAllow(true);
     let myBoxs = document.getElementsByClassName("container")[0].childNodes;
     Array.from(myBoxs).map((div) => (div.innerHTML = ""));
-    console.log(typeof myBoxs, myBoxs);
   };
   return (
     <div className="App">
-        <Players/>
-      <section className="container" onClick={(e) => selectedByPlayers(e)}>
+      <Players />
+      <section
+        className="container"
+        onClick={(e) => (allow ? selectedByPlayers(e) : null)}
+      >
         <div className="section" id="B1"></div>
         <div className="section" id="B2"></div>
         <div className="section" id="B3"></div>
