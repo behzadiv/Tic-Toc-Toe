@@ -8,6 +8,7 @@ import ReactDOMServer from "react-dom/server";
 import { gameAlert } from "../utils/gameAlert";
 import { iconCreator } from "../utils/iconCreator";
 import Players from "./Players";
+import "animate.css";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
   const dispatch = useDispatch();
@@ -29,10 +30,12 @@ const Toictoctoe = () => {
       dispatch(chengePlayer("Y"));
       selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
       if (selectedPlayerX.length > 2) {
-        const result = CheckWinner(selectedPlayerX, player);
-        if (result !== "playing") {
-          gameAlert(result);
-          setAllow(false);
+        const [result,winnerLine] = CheckWinner(selectedPlayerX, player);
+       //console.log(winnerLine,result);
+       winnerLine.map((item)=>document.getElementById(`B${item}`).classList.add("animate"))
+       if (result !== "playing") {
+           gameAlert(result);
+           setAllow(false);
         }
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
@@ -40,7 +43,9 @@ const Toictoctoe = () => {
       dispatch(chengePlayer("X"));
       selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
       if (selectedPlayerY.length > 2) {
-        const result = CheckWinner(selectedPlayerY, player);
+        const [result,winnerLine] = CheckWinner(selectedPlayerY, player);
+        //console.log(winnerLine,result);
+        winnerLine.map((item)=>document.getElementById(`B${item}`).classList.add("animate"))
         if (result !== "playing") {
           gameAlert(result);
           setAllow(false);
@@ -54,7 +59,7 @@ const Toictoctoe = () => {
     setSelectedPlayerY([]);
     setAllow(true);
     let myBoxs = document.getElementsByClassName("container")[0].childNodes;
-    Array.from(myBoxs).map((div) => (div.innerHTML = ""));
+    Array.from(myBoxs).map((div) => {(div.innerHTML = "");div.classList.remove("animate")});
   };
   return (
     <div className="App">
