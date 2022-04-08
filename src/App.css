@@ -39,6 +39,15 @@
 .iconXmark {
   color: rgba(184, 57, 57, 0.850);
 }
+/* style in alert (swall) */
+.iconCircle.alert{
+  font-size: 50px;
+}
+.iconXmark.alert {
+    font-size: 68px;
+}
+/* end */
+
 #B1 {
   border-top: 0;
   border-left: 0;
@@ -97,20 +106,51 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 40px;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
   height: 50px;
-  padding: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+.btn-container{
+    margin: 10px 0;
+    display: flex;
+    gap: 20px;
+}
+.game-title{
+    color: #13867b;
+    margin-bottom: 10px;
 }
 .players-btn {
-  width: 180px;
+  width: 170px;
   background-color: transparent;
   font-size: 25px;
   border: 2px solid rgba(238, 238, 238, 0.37);
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border-bottom: 0;
   outline: 0;
   transition: all 200ms ease-in-out;
+  padding: .2rem 0;
 }
 .playerTurn{
     border-bottom: 2px solid #14bdac;
+}
+
+.animate{
+    animation: winnerAnim 800ms ease-in-out;
+    animation-iteration-count: 200;
+}
+@keyframes winnerAnim {
+    from{
+      opacity: 0.5;
+      transform: scale(1);
+
+    }
+    to{
+        opacity: 1;
+        transform: scale(1.1);
+    }
 }

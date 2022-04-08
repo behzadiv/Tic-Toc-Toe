@@ -7,8 +7,8 @@ import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const gameAlert = (result) => {
-  const circle = <FontAwesomeIcon icon={faCircle} className="iconCircle" />;
-  const xmark = <FontAwesomeIcon icon={faXmark} className="iconXmark" />;
+  const circle = <FontAwesomeIcon icon={faCircle} className="iconCircle alert" />;
+  const xmark = <FontAwesomeIcon icon={faXmark} className="iconXmark alert" />;
 
   const MySwal = withReactContent(Swal);
   switch (result) {
@@ -18,6 +18,8 @@ export const gameAlert = (result) => {
           circle
         )} ${ReactDOMServer.renderToString(xmark)}`,
         title: "DRAW",
+        confirmButtonText: 'Close',
+        confirmButtonColor: '#d33',
         customClass: {
           icon: "no-border",
           title: "title",
