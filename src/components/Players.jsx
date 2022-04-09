@@ -12,8 +12,8 @@ const Players = () => {
     <div className="player-container">
         <h2 className="game-title">Tic Toc Toe</h2>
       <div className="btn-container">
-      <div className={player ==="X"? "players-btn playerTurn animate__heartBeat" : "players-btn"}><span>{circle}</span><span className="winnerQty">{numberOfXWinner}</span></div>
-      <div className={player ==="Y"? "players-btn playerTurn animate__heartBeat" : "players-btn"}><span>{xmark}</span><span className="winnerQty">{numberOfYWinner}</span></div>
+      <div className={player ==="X"? "players-btn playerTurn animate__bounceIn" : "players-btn"}><span>{circle}</span><span className="winnerQty">{numberOfXWinner}</span></div>
+      <div className={player ==="Y"? "players-btn playerTurn animate__bounceIn" : "players-btn"}><span>{xmark}</span><span className="winnerQty">{numberOfYWinner}</span></div>
     
       </div>
       </div>
