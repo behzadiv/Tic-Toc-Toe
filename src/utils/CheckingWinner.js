@@ -25,7 +25,7 @@ export const CheckWinner = (selectedBoxArray, player) => {
     result = player
   } else if (myIndex === -1 && selectedBoxArray.length === 5) {
     console.log("draw!");
-     (result = "Draw");
+     result = "Draw"
   }
   //console.log(winnerLine, myIndex);
   return [result, winnerLine];

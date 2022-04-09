@@ -9,8 +9,10 @@ import { gameAlert } from "../utils/gameAlert";
 import { iconCreator } from "../utils/iconCreator";
 import Players from "./Players";
 import "animate.css";
+import { addXWinner, addYWinner } from "../redux/winnerCounter/winnerQtyAction";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
+  //console.log(numberOfXWinner);
   const dispatch = useDispatch();
   const [selectedPlayerX, setSelectedPlayerX] = useState([]);
   const [selectedPlayerY, setSelectedPlayerY] = useState([]);
@@ -18,6 +20,23 @@ const Toictoctoe = () => {
   const [allow, setAllow] = useState(true);
   //bring my icons
   const [circle, xmark] = iconCreator();
+  const renderFinal = (result) => {
+    console.log(result);
+    switch (result) {
+      case "X":
+        return dispatch(addXWinner()), gameAlert(result), setAllow(false);
+        break;
+      case "Y":
+        return dispatch(addYWinner()), gameAlert(result), setAllow(false);
+        break;
+      case "playing":
+        return;
+      default:
+        gameAlert(result);
+        setAllow(false);
+        break;
+    }
+  };
   const selectedByPlayers = (e) => {
     //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
     const myId = e.target.id;
@@ -30,26 +49,24 @@ const Toictoctoe = () => {
       dispatch(chengePlayer("Y"));
       selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
       if (selectedPlayerX.length > 2) {
-        const [result,winnerLine] = CheckWinner(selectedPlayerX, player);
-       //console.log(winnerLine,result);
-       winnerLine.map((item)=>document.getElementById(`B${item}`).classList.add("animate"))
-       if (result !== "playing") {
-           gameAlert(result);
-           setAllow(false);
-        }
+        const [result, winnerLine] = CheckWinner(selectedPlayerX, player);
+        //console.log(winnerLine,result);
+        winnerLine.map((item) =>
+          document.getElementById(`B${item}`).classList.add("animate")
+        );
+        renderFinal(result);
       }
     } else if (player === "Y" && selectedBox.innerHTML === "") {
       selectedPlayerY.push(selectedId);
       dispatch(chengePlayer("X"));
       selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
       if (selectedPlayerY.length > 2) {
-        const [result,winnerLine] = CheckWinner(selectedPlayerY, player);
+        const [result, winnerLine] = CheckWinner(selectedPlayerY, player);
         //console.log(winnerLine,result);
-        winnerLine.map((item)=>document.getElementById(`B${item}`).classList.add("animate"))
-        if (result !== "playing") {
-          gameAlert(result);
-          setAllow(false);
-        }
+        winnerLine.map((item) =>
+          document.getElementById(`B${item}`).classList.add("animate")
+        );
+        renderFinal(result);
       }
     }
   };
@@ -59,7 +76,10 @@ const Toictoctoe = () => {
     setSelectedPlayerY([]);
     setAllow(true);
     let myBoxs = document.getElementsByClassName("container")[0].childNodes;
-    Array.from(myBoxs).map((div) => {(div.innerHTML = "");div.classList.remove("animate")});
+    Array.from(myBoxs).map((div) => {
+      div.innerHTML = "";
+      div.classList.remove("animate");
+    });
   };
   return (
     <div className="App">
