@@ -1,4 +1,4 @@
-import{ADD_X_WINNER,ADD_Y_WINNER}from "./winnerQtyTypes"
+import{ADD_X_WINNER,ADD_Y_WINNER, RESET_RESULT}from "./winnerQtyTypes"
 
 export const addXWinner = ()=>{
     return{
@@ -8,5 +8,10 @@ export const addXWinner = ()=>{
 export const addYWinner = ()=>{
     return{
         type:ADD_Y_WINNER
+    }
+}
+export const resetResult =()=>{
+    return{
+        type:RESET_RESULT
     }
 }

@@ -1,4 +1,4 @@
-import {ADD_X_WINNER,ADD_Y_WINNER} from "./winnerQtyTypes"
+import {ADD_X_WINNER,ADD_Y_WINNER, RESET_RESULT} from "./winnerQtyTypes"
 const initialState = {
     numberOfXWinner:0,
     numberOfYWinner:0,
@@ -12,7 +12,9 @@ export const winnerQtyReducer =(state=initialState,action)=>{
             break;
         case ADD_Y_WINNER:
             return{...state,numberOfYWinner:state.numberOfYWinner+1}
-        default:
+        case RESET_RESULT:
+            return{numberOfXWinner : 0 , numberOfYWinner : 0}
+            default:
             return state
             break;
     }

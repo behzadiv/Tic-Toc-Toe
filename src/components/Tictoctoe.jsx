@@ -9,10 +9,12 @@ import { gameAlert } from "../utils/gameAlert";
 import { iconCreator } from "../utils/iconCreator";
 import Players from "./Players";
 import "animate.css";
-import { addXWinner, addYWinner } from "../redux/winnerCounter/winnerQtyAction";
+import { addXWinner, addYWinner, resetResult } from "../redux/winnerCounter/winnerQtyAction";
+import Swal from "sweetalert2";
 const Toictoctoe = () => {
   const player = useSelector((state) => state.player.player);
-  //console.log(numberOfXWinner);
+  const {numberOfXWinner, numberOfYWinner}  = useSelector((state)=> state.winnerQty)
+  //console.log(numberOfXWinner,numberOfYWinner);
   const dispatch = useDispatch();
   const [selectedPlayerX, setSelectedPlayerX] = useState([]);
   const [selectedPlayerY, setSelectedPlayerY] = useState([]);
@@ -20,7 +22,47 @@ const Toictoctoe = () => {
   const [allow, setAllow] = useState(true);
   //bring my icons
   const [circle, xmark] = iconCreator();
-  const renderFinal = (result) => {
+  
+  const selectedByPlayers = (e) => {
+    //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
+    const myId = e.target.id;
+    const idToArray = myId.split("");
+    let selectedId = parseInt(idToArray[1]);
+    let selectedBox = document.getElementById(myId);
+    if (selectedBox.innerHTML === "") {
+      switch (player) {
+        case "X":
+          selectedPlayerX.push(selectedId);
+          dispatch(chengePlayer("Y"));
+          selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
+          if (selectedPlayerX.length > 2) {
+            const [result, winnerLine] = CheckWinner(selectedPlayerX, player);
+            //console.log(winnerLine,result);
+            winnerLine.map((item) =>
+              document.getElementById(`B${item}`).classList.add("animate")
+            );
+            calculateResult(result);
+          }
+          break;
+        case "Y":
+          selectedPlayerY.push(selectedId);
+          dispatch(chengePlayer("X"));
+          selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
+          if (selectedPlayerY.length > 2) {
+            const [result, winnerLine] = CheckWinner(selectedPlayerY, player);
+            //console.log(winnerLine,result);
+            winnerLine.map((item) =>
+              document.getElementById(`B${item}`).classList.add("animate")
+            );
+            calculateResult(result);
+          }
+          break;
+        default:
+          return;
+      }
+    }
+  };
+  const calculateResult = (result) => {
     console.log(result);
     switch (result) {
       case "X":
@@ -29,45 +71,10 @@ const Toictoctoe = () => {
       case "Y":
         return dispatch(addYWinner()), gameAlert(result), setAllow(false);
         break;
-      case "playing":
-        return;
+      case "Draw":
+        return gameAlert(result), setAllow(false);
       default:
-        gameAlert(result);
-        setAllow(false);
         break;
-    }
-  };
-  const selectedByPlayers = (e) => {
-    //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
-    const myId = e.target.id;
-    const idToArray = myId.split("");
-    let selectedId = parseInt(idToArray[1]);
-    let selectedBox = document.getElementById(myId);
-
-    if (player === "X" && selectedBox.innerHTML === "") {
-      selectedPlayerX.push(selectedId);
-      dispatch(chengePlayer("Y"));
-      selectedBox.innerHTML = ReactDOMServer.renderToString(circle);
-      if (selectedPlayerX.length > 2) {
-        const [result, winnerLine] = CheckWinner(selectedPlayerX, player);
-        //console.log(winnerLine,result);
-        winnerLine.map((item) =>
-          document.getElementById(`B${item}`).classList.add("animate")
-        );
-        renderFinal(result);
-      }
-    } else if (player === "Y" && selectedBox.innerHTML === "") {
-      selectedPlayerY.push(selectedId);
-      dispatch(chengePlayer("X"));
-      selectedBox.innerHTML = ReactDOMServer.renderToString(xmark);
-      if (selectedPlayerY.length > 2) {
-        const [result, winnerLine] = CheckWinner(selectedPlayerY, player);
-        //console.log(winnerLine,result);
-        winnerLine.map((item) =>
-          document.getElementById(`B${item}`).classList.add("animate")
-        );
-        renderFinal(result);
-      }
     }
   };
   const resetGame = () => {
@@ -81,6 +88,27 @@ const Toictoctoe = () => {
       div.classList.remove("animate");
     });
   };
+  const resetingResults = ()=>{
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, reset!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            dispatch(resetResult())
+            resetGame()
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+  }
   return (
     <div className="App">
       <Players />
@@ -98,9 +126,12 @@ const Toictoctoe = () => {
         <div className="section" id="B8"></div>
         <div className="section" id="B9"></div>
       </section>
-      <section>
-        <button className="btn reset" onClick={() => resetGame()}>
-          Restart Game
+      <section className="reset-btn-container">
+        <button className="btn play-again" onClick={() => resetGame()}>
+          Play again
+        </button>
+        <button className="btn reset" onClick={() => resetingResults()}disabled ={numberOfXWinner||numberOfYWinner ? "":true}>
+          Reset
         </button>
       </section>
     </div>
