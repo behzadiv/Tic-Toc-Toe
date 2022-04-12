@@ -103,7 +103,7 @@ const Toictoctoe = () => {
             resetGame()
           Swal.fire(
             'Deleted!',
-            'Your file has been deleted.',
+            'Reset successfully',
             'success'
           )
         }
