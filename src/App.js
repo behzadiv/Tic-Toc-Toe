@@ -1,21 +1,13 @@
-
-
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import Toictoctoe from "./components/Tictoctoe";
-import store from "./redux/store";
 
- function App() {
-
+function App() {
+  const theme = useSelector((state) => state.theme.theme);
   return (
-    <Provider store={store}>
-      <Toictoctoe/>
-    </Provider>
+    <div className={theme === "light" ? "myPage light" : "myPage dark"}>
+      <Toictoctoe />
+    </div>
   );
 }
 
 export default App;
-
-
-
-
-

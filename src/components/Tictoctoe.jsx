@@ -22,7 +22,7 @@ const Toictoctoe = () => {
   const [allow, setAllow] = useState(true);
   //bring my icons
   const [circle, xmark] = iconCreator();
-  
+  const theme= useSelector(state=>state.theme.theme)
   const selectedByPlayers = (e) => {
     //pop number from my Id to select which box selected and push that number to selectedPlayer Arrays
     const myId = e.target.id;
@@ -110,21 +110,21 @@ const Toictoctoe = () => {
       })
   }
   return (
-    <div className="App">
+    <div className={theme==="light"? "App light" : "App dark"}>
       <Players />
       <section
-        className="container"
+        className={theme==="light"? "container light" : "container dark"}
         onClick={(e) => (allow ? selectedByPlayers(e) : null)}
       >
-        <div className="section" id="B1"></div>
-        <div className="section" id="B2"></div>
-        <div className="section" id="B3"></div>
-        <div className="section" id="B4"></div>
-        <div className="section" id="B5"></div>
-        <div className="section" id="B6"></div>
-        <div className="section" id="B7"></div>
-        <div className="section" id="B8"></div>
-        <div className="section" id="B9"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B1"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B2"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B3"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B4"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B5"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B6"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B7"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B8"></div>
+        <div className={theme==="light"? "section light" : "section dark"} id="B9"></div>
       </section>
       <section className="reset-btn-container">
         <button className="btn play-again" onClick={() => resetGame()}>
